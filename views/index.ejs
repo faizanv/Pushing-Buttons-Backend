@@ -7,9 +7,31 @@
   </head>
   <body>
     <div class="jumbotron">
-      <h1><%= title %></h1>
-      <button type="button" class="btn btn-primary">Order Chipotle</button>
-      <button type="button" class="btn btn-primary">Text Bae</button>
+      <h1 id="title"><%= title %></h1>
+      <button type="button" class="btn btn-primary" id="food">Order Chipotle</button>
+      <button type="button" class="btn btn-primary" id="morning">Text Bae</button>
     </div>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+    <script type="text/javascript">
+      var fb = new Firebase("https://pushingbuttons.firebaseio.com/");
+      $(document).ready(function() {
+        fb.on('value', function(dataSnapshot) {
+          $("#title").html(dataSnapshot.val().mode);
+        })
+      });
+
+      $("#food").click(function() {
+        $.get("/changeMode/orderFood", function(res) {
+          console.log(res);
+        });
+      });
+
+      $("#morning").click(function() {
+        $.get("/changeMode/morning", function(res) {
+          console.log(res);
+        });
+      });
+    </script>
   </body>
 </html>
